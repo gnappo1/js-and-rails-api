@@ -53,7 +53,6 @@ const fetchCategoriesForSelect = () => {
 }
 
 const renderCategories = (categories) => {
-    console.log("I have been here frist!")
     ul().innerHTML += "<h1 id='categories-header'>Categories</h1>"
     categories.forEach(element => renderCategory(element));
 }
