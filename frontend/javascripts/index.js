@@ -4,7 +4,10 @@ const buttonNew = () => document.getElementById("button-new")
 const ulDiv = () => document.getElementById("list")
 const ul = () => document.getElementById("categories-list")
 const productForm = () => document.getElementById("product-form")
-
+const formName = () => document.querySelector("#product-name")
+const formDescription = () => document.querySelector("#product-description")
+const formPrice = () => document.querySelector("#product-price")
+const formCategory = () => document.querySelector("#category_id")
 document.addEventListener("DOMContentLoaded", () => {
     buttonShow().addEventListener("click", handleClick)
     buttonNew().addEventListener("click", displayForm)
@@ -61,6 +64,7 @@ const renderCategories = (categories) => {
 const renderCategory = (category) => {
     const h4 = document.createElement("h4")
     const a = document.createElement("a")
+    h4.dataset.categoryId = category.id
     a.id = `category-${category.id}`
     a.innerText = category.name
     a.href = "#"
@@ -83,19 +87,64 @@ const renderProducts = (e, category) => {
 const renderProduct = (product, catId) => {
     const a = document.getElementById(`category-${catId}`)
     const li = document.createElement("li")
-    a.dataset.catId = catId
+    li.dataset.productid = product.id
     li.innerHTML = `
         <strong class="product-name">${product.name}</strong>
         <span class="product-price">${product.price}</span>
         <span class="product-description">${product.description}</span><br>
-        <button class="edit-product" data-id="${product.id}">Update</button>
+        <button class="edit-product" data-id="${product.id}">Edit</button>
         <button class="delete-product" data-id="${product.id}">Delete</button>
     `
     a.parentNode.appendChild(li)
+    document.querySelectorAll(".edit-product").forEach(btn => btn.addEventListener("click", handleUpdate))
 }
 
-const handleSubmit = () => {
-    debugger
+const handleSubmit = (e) => {
+    e.preventDefault()
+    const formData = new FormData(productForm())
+    formData.append("category_id", formCategory().value)
+
+    const data = {
+        name: formName().value,
+        description: formDescription().value,
+        price: formPrice().value,
+        category_id: formCategory().value
+    }
+    fetch("http://localhost:3000/products", {
+        method: "post",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(resp => resp.json())
+    .then(json => {
+        ul().children.length < 1 ? handleClick() : null
+        renderProduct(json, json.category.id)
+        productForm().clear()
+    })
+}
+
+const handleUpdate = (e) => {
+    if (e.target.innerText === "Edit") {
+        const prodId = e.target.parentElement.dataset.productId
+        const name = e.target.parentElement.querySelector(".product-name").innerText 
+        const price = e.target.parentElement.querySelector(".product-price").innerText 
+        const description = e.target.parentElement.querySelector(".product-description").innerText 
+        e.target.parentNode.innerHTML = `
+            <label for="product-name">Name:</label>
+            <input type="text" name="name" id="product-name" value="${name}"><br>
+            <label for="product-description">Description:</label>
+            <input type="text" name="description" id="product-description" value="${description}"><br>
+            <label for="product-price">Price:</label>
+            <input type="number" name="price" id="product-price" min="0" step=".01" value="${price}"><br>
+            <button class="edit-product" data-id="${e.target.dataset.id}">Update</button>
+            <button class="delete-product" data-id="${e.target.dataset.id}">Delete</button>
+            `
+        document.querySelector(`button[data-id='${prodId}']`).addEventListener("click", handleUpdate)
+    } else {
+
+    }
 }
 
 
