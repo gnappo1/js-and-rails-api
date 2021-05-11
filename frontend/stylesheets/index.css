@@ -1,0 +1,8 @@
+html {
+    background: linear-gradient(200deg, rgb(138, 249, 199), rgb(87, 228, 249));
+    background-size: 600% 600%;
+    background-attachment: fixed;
+    height: 100%;
+    min-height: 100%;
+    animation: TackyGradient 12s ease infinite;
+  }
