@@ -2,7 +2,7 @@ class CategoriesController < ApplicationController
   # before_action :set_category, only: [:show, :update, :destroy]
 
   def index
-    categories = Category.all
+    categories = Category.includes(:products)
     render json: categories #, only: [:id, :name], include: {products: {except: [:category_id, :created_at, :updated_at, ]}}
   end
 
