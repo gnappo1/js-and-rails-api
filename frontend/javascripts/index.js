@@ -86,7 +86,6 @@ const renderProducts = (e, category) => {
 
 }
 const renderProduct = (product, catId) => {
-    // debugger
     const a = document.getElementById(`category-${catId}`)
     const li = document.createElement("li")
     a.dataset.catId = catId
@@ -99,6 +98,8 @@ const renderProduct = (product, catId) => {
     `
     a.parentNode.appendChild(li)
     document.querySelector(`button.delete-product[data-id='${product.id}']`).addEventListener("click", handleDelete)
+    document.querySelector(`button.edit-product[data-id='${product.id}']`).addEventListener("click", handleUpdate)
+
 }
 
 const handleSubmit = (e) => {
@@ -121,6 +122,11 @@ const handleSubmit = (e) => {
     .then(json => handleCreateProduct(json))
 }
 
+const handleCreateProduct = (product) => {
+    ul().children.length < 1 ? handleClick() : renderProduct(product, product.category.id)
+    productForm().reset()
+}
+
 const handleDelete = (e) => {
     fetch(`http://localhost:3000/products/${e.target.dataset.id}`, {
         method: 'DELETE',
@@ -135,12 +141,67 @@ const handleDelete = (e) => {
     })
 }
 
-const handleCreateProduct = (product) => {
-    //make sure the categories are on the page
-    //make sure the new product will end up on the page
-    ul().children.length < 1 ? handleClick() : renderProduct(product, product.category.id)
-    productForm().reset()
+const handleUpdate = (e) => {
+    if (e.target.innerText === "Edit") {
+        // replace current li with a new one containing inputs and map values
+        // Button will now say Update not Edit
+        const prodId = e.target.dataset.id
+        const name = e.target.parentElement.querySelector(".product-name").innerText
+        const price = e.target.parentElement.querySelector(".product-price").innerText
+        const description = e.target.parentElement.querySelector(".product-description").innerText
+        e.target.parentElement.innerHTML = `
+            <label for="product-name">Name:</label>
+            <input type="text" name="name" id="product-name" value="${name}"><br>
+            <label for="product-description">Description:</label>
+            <input type="text" name="description" id="product-description" value="${description}"><br>
+            <label for="product-price">Price:</label>
+            <input type="number" name="price" id="product-price" min="0" step=".01" value="${price}"><br>
+            <button class="update-product" data-id="${prodId}">Update</button>
+            <button class="delete-product" data-id="${prodId}">Delete</button>
+        `
+        document.querySelector(`button.delete-product[data-id='${prodId}']`).addEventListener("click", handleDelete)
+        document.querySelector(`button.update-product[data-id='${prodId}']`).addEventListener("click", handleUpdate)
+
+
+    } else {
+        handleFetchUpdate(e)
+    }
 }
+
+const handleFetchUpdate = (e) => {
+    const data = {
+        id: e.target.dataset.id,
+        name: e.target.parentElement.querySelector("#product-name").value,
+        price: e.target.parentElement.querySelector("#product-price").value,
+        description: e.target.parentElement.querySelector("#product-description").value
+    }
+
+    fetch(`http://localhost:3000/products/${data.id}`, {
+        method: 'PATCH',
+        headers: {
+            "Content-Type": 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(resp => resp.json())
+    .then(json => replaceElement(json, e.target.parentElement))
+    .catch(err => alert(err))
+}
+
+const replaceElement = (product, li) => {
+    debugger
+    li.innerHTML = `
+        <strong class="product-name">${product.name}</strong>
+        <span class="product-price">${product.price}</span>
+        <span class="product-description">${product.description}</span><br>
+        <button class="edit-product" data-id="${product.id}">Edit</button>
+        <button class="delete-product" data-id="${product.id}">Delete</button>
+    `
+    document.querySelector(`button.delete-product[data-id='${product.id}']`).addEventListener("click", handleDelete)
+    document.querySelector(`button.edit-product[data-id='${product.id}']`).addEventListener("click", handleUpdate)
+
+}
+
 
 const handleError = (error) => {
     console.log(error)
