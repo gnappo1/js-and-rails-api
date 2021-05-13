@@ -99,6 +99,7 @@ const renderProduct = (product, catId) => {
     `
     a.parentNode.appendChild(li)
     document.querySelector(`button.delete-product[data-id='${product.id}']`).addEventListener("click", handleDelete)
+    document.querySelector(`button.edit-product[data-id='${product.id}']`).addEventListener("click", handleUpdate)
 }
 
 const handleSubmit = (e) => {
@@ -133,6 +134,64 @@ const handleDelete = (e) => {
         e.target.parentNode.remove()
         alert(json.message)
     })
+}
+
+const handleUpdate = (e) => {
+    if (e.target.innerText === "Edit") {
+        const prodId = e.target.parentElement.dataset.productId
+        const name = e.target.parentElement.querySelector(".product-name").innerText 
+        const price = e.target.parentElement.querySelector(".product-price").innerText 
+        const description = e.target.parentElement.querySelector(".product-description").innerText 
+        e.target.parentNode.innerHTML = `
+            <label for="product-name">Name:</label>
+            <input type="text" name="name" id="product-name" value="${name}"><br>
+            <label for="product-description">Description:</label>
+            <input type="text" name="description" id="product-description" value="${description}"><br>
+            <label for="product-price">Price:</label>
+            <input type="number" name="price" id="product-price" min="0" step=".01" value="${price}"><br>
+            <button class="edit-product" data-id="${e.target.dataset.id}">Update</button>
+            <button class="delete-product" data-id="${e.target.dataset.id}">Delete</button>
+        `
+        document.querySelector(`button.edit-product[data-id='${e.target.dataset.id}']`).addEventListener("click", handleUpdate)
+    } else {
+        handleUpdateProduct(e)
+    }
+}
+
+const handleUpdateProduct = (e) => {
+    const prodId = e.target.dataset.id
+    const name = e.target.parentElement.querySelector("#product-name").value
+    const price = e.target.parentElement.querySelector("#product-price").value
+    const description = e.target.parentElement.querySelector("#product-description").value
+    const data = {
+        id: prodId,
+        name: name, 
+        price: price,
+        description: description
+    }
+        fetch(`http://localhost:3000/products/${prodId}`, {
+            method: 'PATCH',
+            headers: {
+                "Content-Type": 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(resp => resp.json())
+        .then(json => replaceElement(json, e.target.parentNode))
+        .catch(err => alert(err))
+   
+}
+
+const replaceElement = (product, li) => {
+    li.innerHTML = `
+        <strong class="product-name">${product.name}</strong>
+        <span class="product-price">${product.price}</span>
+        <span class="product-description">${product.description}</span><br>
+        <button class="edit-product" data-id="${product.id}">Edit</button>
+        <button class="delete-product" data-id="${product.id}">Delete</button>
+    `
+    document.querySelector(`button.delete-product[data-id='${product.id}']`).addEventListener("click", handleDelete)
+    document.querySelector(`button.edit-product[data-id='${product.id}']`).addEventListener("click", handleUpdate)
 }
 
 const handleCreateProduct = (product) => {
