@@ -35,7 +35,11 @@ class ProductsController < ApplicationController
 
   # DELETE /products/1
   def destroy
-    @product.destroy
+    if @product.destroy
+      render json: {message: "Product successfully destroyed"}
+    else
+      render json: {message: "Something went wrong! Errors: #{@product.errors.full_messages}"}
+    end
   end
 
   private
