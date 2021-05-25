@@ -1,14 +1,3 @@
-const buttonDiv = () => document.getElementById("button-control")
-const buttonShow = () => document.getElementById("button-show")
-const buttonNew = () => document.getElementById("button-new")
-const ulDiv = () => document.getElementById("list")
-const ul = () => document.getElementById("categories-list")
-const productForm = () => document.getElementById("product-form")
-const productName = () => document.getElementById("product-name")
-const productPrice = () => document.getElementById("product-price")
-const productDescription = () => document.getElementById("product-description")
-const productSelectCategory = () => document.getElementById("category_id")
-
 document.addEventListener("DOMContentLoaded", () => {
     buttonShow().addEventListener("click", handleClick)
     buttonNew().addEventListener("click", displayForm)
@@ -16,10 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const handleClick = (e) => {
     if (ul().children.length < 1) {
-        fetch('http://localhost:3000/categories')
-        .then(resp => resp.json())
-        .then(json => renderCategories(json))
-        .catch(handleError)
+     CategoryApi.fetchCategories()
+     Category.render()
     } else {
         ul().innerHTML = ""
     }
@@ -56,22 +43,22 @@ const fetchCategoriesForSelect = () => {
             .then(collection => document.querySelector("select#category_id").innerHTML = collection.join(" "))
 }
 
-const renderCategories = (categories) => {
-    ul().innerHTML += "<h1 id='categories-header'>Categories</h1>"
-    categories.forEach(element => renderCategory(element));
-}
+// const renderCategories = (categories) => {
+//     ul().innerHTML += "<h1 id='categories-header'>Categories</h1>"
+//     categories.forEach(element => renderCategory(element));
+// }
 
 
-const renderCategory = (category) => {
-    const h4 = document.createElement("h4")
-    const a = document.createElement("a")
-    a.id = `category-${category.id}`
-    a.innerText = category.name
-    a.href = "#"
-    a.addEventListener("click", (e) => renderProducts(e, category))
-    h4.appendChild(a)
-    ul().appendChild(h4)
-}
+// const renderCategory = (category) => {
+//     const h4 = document.createElement("h4")
+//     const a = document.createElement("a")
+//     a.id = `category-${category.id}`
+//     a.innerText = category.name
+//     a.href = "#"
+//     a.addEventListener("click", (e) => renderProducts(e, category))
+//     h4.appendChild(a)
+//     ul().appendChild(h4)
+// }
 
 const renderProducts = (e, category) => {
     const nextLiSibling = e.target.nextSibling
