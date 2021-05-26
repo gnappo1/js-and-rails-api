@@ -41,13 +41,14 @@ const jitta = { name: "Jitta", breed: "Mutant Chihuahua" }
 jitta.legCount // 2
 
 ```
+
 Note: you could define a prototype for each object (shown below in Option 2), but would have to set each one individually, which is not DRY
 
 #### Option 2: Factory Method
 
 ```js
 
-function Person(name, job){
+function person(name, job){
     return {
         name: name, 
         job: job,
@@ -57,12 +58,13 @@ function Person(name, job){
 
 ```
 
-Positives: 
+Positives:
+
 - Ensures uniformity
 - Can encapsulate variables:
 
 ```js
-function Person(name, job){
+function person(name, job){
     const secret = "I have a secret"
     return {
         name: name, 
@@ -72,16 +74,17 @@ function Person(name, job){
     }
 }
 
-const laura = Person('Laura', "cohort lead")
+const laura = person('Laura', "cohort lead")
 laura.secret //=> undefined
 laura.whisperSecret() // logs `SHHHH!: I have a secret`
 
 
 ```
+
 - Can easily add a custom prototype:
 
 ```js
-function Person(name, job){
+function person(name, job){
     prototype = {
         legCount: 2
     }
@@ -94,16 +97,15 @@ function Person(name, job){
     }
 }
 
-const laura = Person('Laura', "cohort lead")
+const laura = person('Laura', "cohort lead")
 laura.name
 laura.legCount
 
 ```
+
 - `new` keyword not required
 
-
 #### Constructor functions
-
 
 ```js
 
@@ -133,32 +135,31 @@ laura.whisperSecret()
 console.log(eri.legCount)
 ```
 
-
-
-
 Positives:
-- Encapsulation possible 
+
+- Encapsulation possible
 
 Downsides:
-- If you forget to say `new` your code will not work properly - this is a common bug 
+
+- If you forget to say `new` your code will not work properly - this is a common bug
+
 - If you forget `new` you will be adding the attributes defined in the constructor function to the `window`
+
 - Adding protoypes is PIA
-
-
 
 ### Positives/Negatives of class syntax
 
 Positives:
+
 - It is the future of JS since ES6
-- It is very organized 
+- It is very organized
 - It is similar to other OOP languages
 
 Negatives:
+
 - No encapsulation (as of now, but it is being implemented soon)
 
-
 ### Standard class syntax
-
 
 ```js
 
@@ -195,13 +196,9 @@ myRectangle.sayHi() // => logs "Hi, I am a rectangle!"
 
 ```
 
-
-
 ### Class methods
 
-
 - add the static keyword
-
 
 ```js
 
@@ -238,11 +235,9 @@ console.log(mySquare.area()) // => 9
 
 ```
 
-
 ### Getters and setters
 
 - Lets you access/set computed properties as if they were instance variables
-
 
 ```js
 class Rectangle {
@@ -295,6 +290,5 @@ myRectangle.area = 3 // =>
 ```
 
 ### Context of a SPA
-
 
 We want to encapsulate the object(s) we want to display on the page as classes. For example, if we wanted to display a Pokemon, we could make it into a class and provide a method which could render itself.
