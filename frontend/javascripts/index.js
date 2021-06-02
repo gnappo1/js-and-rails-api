@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
     buttonShow().addEventListener("click", handleClick)
     buttonNew().addEventListener("click", displayForm)
+    ProductApi.fetchProducts()
 })
 
 const handleClick = (e) => {
     if (ul().children.length < 1) {
      CategoryApi.fetchCategories()
-     Category.render()
     } else {
         ul().innerHTML = ""
     }
@@ -30,7 +30,7 @@ const displayForm = () => {
             <input type="submit" value="Create">
         </form>
         `)
-        productForm().addEventListener("submit", handleSubmit)
+        productForm().addEventListener("submit", ProductApi.handleSubmit)
     } else {
         productForm().remove()
     }
@@ -67,47 +67,47 @@ const renderProducts = (e, category) => {
         const lis = children.slice(1)
         lis.forEach((li) => li.remove())
     } else {
-        category.products.forEach(element => renderProduct(element, category.id));
+        category.getProducts().forEach(element => element.render());
 
     }
 
 }
-const renderProduct = (product, catId) => {
-    const a = document.getElementById(`category-${catId}`)
-    const li = document.createElement("li")
-    a.dataset.catId = catId
-    li.innerHTML = `
-        <strong class="product-name">${product.name}</strong>
-        <span class="product-price">${product.price}</span>
-        <span class="product-description">${product.description}</span><br>
-        <button class="edit-product" data-id="${product.id}">Edit</button>
-        <button class="delete-product" data-id="${product.id}">Delete</button>
-    `
-    a.parentNode.appendChild(li)
-    document.querySelector(`button.delete-product[data-id='${product.id}']`).addEventListener("click", handleDelete)
-    document.querySelector(`button.edit-product[data-id='${product.id}']`).addEventListener("click", handleUpdate)
+// const renderProduct = (product, catId) => {
+//     const a = document.getElementById(`category-${catId}`)
+//     const li = document.createElement("li")
+//     a.dataset.catId = catId
+//     li.innerHTML = `
+//         <strong class="product-name">${product.name}</strong>
+//         <span class="product-price">${product.price}</span>
+//         <span class="product-description">${product.description}</span><br>
+//         <button class="edit-product" data-id="${product.id}">Edit</button>
+//         <button class="delete-product" data-id="${product.id}">Delete</button>
+//     `
+//     a.parentNode.appendChild(li)
+//     document.querySelector(`button.delete-product[data-id='${product.id}']`).addEventListener("click", handleDelete)
+//     document.querySelector(`button.edit-product[data-id='${product.id}']`).addEventListener("click", handleUpdate)
 
-}
+// }
 
-const handleSubmit = (e) => {
-    e.preventDefault()
-    const data = {
-        name: productName().value,
-        description: productDescription().value,
-        price: productPrice().value,
-        category_id: productSelectCategory().value
-    }
+// const handleSubmit = (e) => {
+//     e.preventDefault()
+//     const data = {
+//         name: productName().value,
+//         description: productDescription().value,
+//         price: productPrice().value,
+//         category_id: productSelectCategory().value
+//     }
 
-    fetch("http://localhost:3000/products", {
-        method: 'POST',
-        headers: {
-            "Content-Type": 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(resp => resp.json())
-    .then(json => handleCreateProduct(json))
-}
+//     fetch("http://localhost:3000/products", {
+//         method: 'POST',
+//         headers: {
+//             "Content-Type": 'application/json'
+//         },
+//         body: JSON.stringify(data)
+//     })
+//     .then(resp => resp.json())
+//     .then(json => handleCreateProduct(json))
+// }
 
 const handleCreateProduct = (product) => {
     ul().children.length < 1 ? handleClick() : renderProduct(product, product.category.id)

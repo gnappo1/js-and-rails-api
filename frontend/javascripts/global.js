@@ -1,3 +1,4 @@
+const baseUrl = "http://localhost:3000"
 const buttonDiv = () => document.getElementById("button-control")
 const buttonShow = () => document.getElementById("button-show")
 const buttonNew = () => document.getElementById("button-new")
