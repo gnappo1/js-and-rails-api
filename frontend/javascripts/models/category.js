@@ -1,5 +1,6 @@
 class Category {
     static all = []
+    static dropDownOptions = []
 
     constructor({name, id, products = []}){
         this.name = name
@@ -28,17 +29,33 @@ class Category {
         return Product.all.filter(product => this.id === product.category_id )
     }
 
+    addToDropDown() {
+        const option = document.createElement("option")
+        option.value = this.id
+        option.innerText = this.name
+        Category.dropDownOptions.push(option)
+    }
+
     render() {
-        // ul().innerHTML += "<h1 id='categories-header'>Categories</h1>"
-        // this.all.forEach(cat => this.renderCategory(cat))
         const h4 = document.createElement("h4")
         const a = document.createElement("a")
         a.id = `category-${this.id}`
         a.innerText = this.name
         a.href = "#"
-        a.addEventListener("click", (e) => renderProducts(e, this))
+        a.addEventListener("click", this.renderProducts)
         h4.appendChild(a)
         ul().appendChild(h4)
+    }
+
+    renderProducts = (e) => {
+        const nextLiSibling = e.target.nextSibling
+        if (nextLiSibling) {
+            const children = Array.from(e.target.parentNode.children)
+            const lis = children.slice(1)
+            lis.forEach((li) => li.remove())
+        } else {
+            this.getProducts().forEach(element => element.render())
+        }
     }
 
     // static renderCategory(category) {

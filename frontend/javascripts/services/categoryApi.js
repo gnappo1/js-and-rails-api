@@ -4,10 +4,11 @@ class CategoryApi {
         .then(resp => resp.json())
         .then(json => json.forEach(catObj => {
             let cat = Category.findOrCreateBy(catObj)
+            cat.addToDropDown()
             cat.render()
         }))
         // .then(() => Category.render())
-        .catch(handleError)
+        .catch(this.handleError)
     }
 
     static handleError(error) {
