@@ -11,8 +11,13 @@ class ProductApi {
         .catch(this.handleError)
     }
 
-    static handleError(err) {
-        alert(err)
+    static handleError(error) {
+        flash().innerText = error
+        flash().classList.remove("hide")
+        setTimeout(() => {
+            flash().innerText = ""
+            flash().classList.add("hide")
+        }, 5000)
     }
 
     static handleSubmit(e) {

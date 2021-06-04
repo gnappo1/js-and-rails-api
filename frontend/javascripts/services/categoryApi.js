@@ -12,6 +12,11 @@ class CategoryApi {
     }
 
     static handleError(error) {
-        console.log(error)
+        flash().innerText = error
+        flash().classList.remove("hide")
+        setTimeout(() => {
+            flash().innerText = ""
+            flash().classList.add("hide")
+        }, 5000)
     }
 }

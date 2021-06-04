@@ -6,17 +6,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Js + Rails as Api</title>
     <link rel="stylesheet" href="stylesheets/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
-<body>
-    <h1>Welcome to our store!</h1>
-    <div id="button-control">
-        <button id="button-show">Show Categories</button>
-        <button id="button-new">Show Form</button>
-    </div>
-    <div id="list">
-        <ul id="categories-list"></ul>
+<body id="top">
+    <div id="main">
+        <nav class="navbar">
+            <div class="navbar-list">
+                <a href="#logo" id="logo" class="navbar-link"><img src="images/navbar-logo.png" alt="company logo"></a>
+                <a href="#home" id="home" class="navbar-link">Home</a>
+                <a href="#mission-section" id="mission" class="navbar-link">Mission</a>
+                <a href="#categories-section" id="categories" class="navbar-link">Categories</a>
+                <a href="#new-form-section" id="new-product" class="navbar-link">New Product</a>
+            </div>
+        </nav>
+        <div id="flash" class="hide"></div>
+        <div id="page-title">
+            <h1 class="center">Miràge
+                <span
+                    class="txt-rotate"
+                    data-period="2000"
+                    data-rotate='["Designs.", "Fantasies.", "Art.", "Fun!"]'
+                >
+                </span>
+            </h1>
+        </div>
+        <div id="hero-section" class="section">
+            <div id="content" class="left md-6">
+                <h1>Designs & Fantasies</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sit amet ex malesuada ante faucibus auctor nec et arcu. Cras nisl tortor, cursus eget tellus et, ultricies hendrerit nunc. Quisque dictum dapibus libero, non maximus massa luctus et. Curabitur malesuada lorem id mi malesuada, non tincidunt enim iaculis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In in sem eget mi porttitor eleifend. Suspendisse scelerisque gravida odio, non sollicitudin libero ornare et. Nulla urna orci, tempor quis nulla ac, tempor eleifend arcu. Nulla lobortis molestie sem sed suscipit. Praesent aliquet at sem accumsan elementum.</p>
+            </div>
+            <div id="hero-image-div" class="right md-6">
+                <img id="hero-image" src="images/fashion-paris.jpeg" alt="Fashion sketch image">
+            </div>
+        </div>
+        <div id="mission-section" class="section">
+            <h1 id="mission-title">Our Mission</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sit amet ex malesuada ante faucibus auctor nec et arcu. Cras nisl tortor, cursus eget tellus et, ultricies hendrerit nunc. Quisque dictum dapibus libero, non maximus massa luctus et. Curabitur malesuada lorem id mi malesuada, non tincidunt enim iaculis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In in sem eget mi porttitor eleifend. Suspendisse scelerisque gravida odio, non sollicitudin libero ornare et. Nulla urna orci, tempor quis nulla ac, tempor eleifend arcu. Nulla lobortis molestie sem sed suscipit. Praesent aliquet at sem accumsan elementum.<br>Duis sagittis malesuada nisl at suscipit. Mauris lobortis, sem et vehicula aliquet, sapien ante molestie nulla, vitae interdum enim ante sit amet erat. Sed non elit scelerisque, egestas est ut, ultrices felis. Nunc aliquet nec odio at mattis. Donec pharetra aliquet nisl ac condimentum. Nulla eget nibh quis purus gravida rhoncus. Aliquam eleifend luctus turpis non euismod. Donec ex nunc, dignissim a ultrices ac, porta in massa. Fusce posuere tincidunt lacus in tempus. Fusce bibendum, turpis id euismod scelerisque, arcu augue ullamcorper risus, elementum fermentum justo ligula in leo. Morbi ullamcorper felis justo, sed scelerisque felis sagittis id.</p>
+        </div>
+        <div id="categories-section" class="section"></div>
+        <div id="new-form-section" class="section">
+            <form id="product-form">
+                <h3>Add a new Product:</h3>
+                <label for="product-name">Name:</label>
+                <input type="text" name="name" id="product-name"><br><br>
+                <label for="product-description">Description:</label>
+                <input type="text" name="description" id="product-description"><br><br>
+                <label for="product-price">Price:</label>
+                <input type="number" name="price" id="product-price" min="0" step=".01"><br><br>
+                <label for="product-category">Category:</label>
+                <select id="category_id">
+                </select>
+                <input type="submit" value="Create">
+            </form>
+        </div>
+        <div id="footer">
+            <a href="#top" id="scroll-back"><i class="fas fa-2x fa-arrow-alt-circle-up"></i></a>
+        </div>
     </div>
     <script src="javascripts/global.js"></script>
+    <script src="javascripts/hero.js"></script>
     <script src="javascripts/models/category.js"></script>
     <script src="javascripts/models/product.js"></script>
     <script src="javascripts/services/categoryApi.js"></script>

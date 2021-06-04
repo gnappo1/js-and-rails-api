@@ -1,13 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    buttonShow().addEventListener("click", handleClick)
-    buttonNew().addEventListener("click", Product.displayForm)
+    CategoryApi.fetchCategories()
     ProductApi.fetchProducts()
+    productForm().addEventListener("submit", ProductApi.handleSubmit)
 })
-
-const handleClick = (e) => {
-    if (ul().children.length < 1) {
-     CategoryApi.fetchCategories()
-    } else {
-        ul().innerHTML = ""
-    }
-}

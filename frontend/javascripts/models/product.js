@@ -32,52 +32,48 @@ class Product {
 
     render() {
         // if category is not on the page, then we need to display them all
-        if (ul().children.length < 1) {
-            handleClick() 
-        } else {
-            //find the category on the page where we need to append the new product
-            let catAnchor = document.querySelector(`#category-${this.category_id}`)
-            const li = document.createElement("li")
-            catAnchor.dataset.catId = this.category_id
-            li.innerHTML = `
-                <strong class="product-name">${this.name}</strong>
-                <span class="product-price">${this.price}</span>
-                <span class="product-description">${this.description}</span><br>
-                <button class="edit-product" data-id="${this.id}">Edit</button>
-                <button class="delete-product" data-id="${this.id}">Delete</button>
-            `
-            catAnchor.parentNode.appendChild(li)
-            document.querySelector(`button.delete-product[data-id='${this.id}']`).addEventListener("click", ProductApi.handleDelete)
-            document.querySelector(`button.edit-product[data-id='${this.id}']`).addEventListener("click", this.handleUpdate)
-
-        }
+        //find the category on the page where we need to append the new product
+        let catAnchor = document.querySelector(`#category-${this.category_id}`)
+        const li = document.createElement("li")
+        catAnchor.dataset.catId = this.category_id
+        li.innerHTML = `
+        <strong class="product-name">${this.name}</strong>
+        <span class="product-price">${this.price}</span>
+        <span class="product-description">${this.description}</span><br>
+        <button class="edit-product" data-id="${this.id}">Edit</button>
+        <button class="delete-product" data-id="${this.id}">Delete</button>
+        `
+        // debugger
+        catAnchor.parentNode.appendChild(li)
+        document.querySelector(`button.delete-product[data-id='${this.id}']`).addEventListener("click", ProductApi.handleDelete)
+        document.querySelector(`button.edit-product[data-id='${this.id}']`).addEventListener("click", this.handleUpdate)
         //build the correct structure for the product
         //append the product
     }
 
-    static displayForm() {
-        if (!productForm()) {
-            list.insertAdjacentHTML('afterend', `
-                <form id="product-form">
-                    <h3>Add a new Product:</h3>
-                    <label for="product-name">Name:</label>
-                    <input type="text" name="name" id="product-name"><br><br>
-                    <label for="product-description">Description:</label>
-                    <input type="text" name="description" id="product-description"><br><br>
-                    <label for="product-price">Price:</label>
-                    <input type="number" name="price" id="product-price" min="0" step=".01"><br><br>
-                    <label for"product-category">Category:</label>
-                    <select id="category_id">
-                    </select>
-                    <input type="submit" value="Create">
-                </form>
-            `)
-            Category.dropDownOptions.forEach(optionTag => productSelectCategory().append(optionTag))
-            productForm().addEventListener("submit", ProductApi.handleSubmit)
-        } else {
-            productForm().remove()
-        }
-    }
+    // static displayForm() {
+    //     if (!productForm()) {
+    //         list.insertAdjacentHTML('afterend', `
+    //             <form id="product-form">
+    //                 <h3>Add a new Product:</h3>
+    //                 <label for="product-name">Name:</label>
+    //                 <input type="text" name="name" id="product-name"><br><br>
+    //                 <label for="product-description">Description:</label>
+    //                 <input type="text" name="description" id="product-description"><br><br>
+    //                 <label for="product-price">Price:</label>
+    //                 <input type="number" name="price" id="product-price" min="0" step=".01"><br><br>
+    //                 <label for"product-category">Category:</label>
+    //                 <select id="category_id">
+    //                 </select>
+    //                 <input type="submit" value="Create">
+    //             </form>
+    //         `)
+    //         Category.dropDownOptions.forEach(optionTag => productSelectCategory().append(optionTag))
+    //         productForm().addEventListener("submit", ProductApi.handleSubmit)
+    //     } else {
+    //         productForm().remove()
+    //     }
+    // }
 
     handleUpdate = (e) => {
         if (e.target.innerText === "Edit") {

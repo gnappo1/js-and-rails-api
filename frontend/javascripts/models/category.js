@@ -33,7 +33,7 @@ class Category {
         const option = document.createElement("option")
         option.value = this.id
         option.innerText = this.name
-        Category.dropDownOptions.push(option)
+        productSelectCategory().append(option)
     }
 
     render() {
@@ -41,10 +41,10 @@ class Category {
         const a = document.createElement("a")
         a.id = `category-${this.id}`
         a.innerText = this.name
-        a.href = "#"
+        a.href = "####"
         a.addEventListener("click", this.renderProducts)
         h4.appendChild(a)
-        ul().appendChild(h4)
+        categoriesSection().appendChild(h4)
     }
 
     renderProducts = (e) => {
