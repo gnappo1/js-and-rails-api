@@ -4,7 +4,7 @@ require_relative "config/environment"
 require 'rack/cors'
 use Rack::Cors do
   allow do
-    origins '*'
+    origins 'http://matteopiccini.com/js-and-rails-api/frontend'
 
     resource '*',
       headers: :any,
