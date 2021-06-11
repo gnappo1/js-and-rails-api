@@ -1,9 +1,9 @@
 class ProductApi {
 
-    static baseUrl = `${baseUrl}/products`
+    static url = `${baseUrl}/products`
 
     static fetchProducts() {
-        fetch(this.baseUrl)
+        fetch(this.url)
         .then(resp => resp.json())
         .then(json => json.forEach(prodObj => {
             Product.findOrCreateBy(prodObj)
