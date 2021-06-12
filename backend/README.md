@@ -1,24 +1,17 @@
-# README
+# Rails as an API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Key Topics
 
-Things you may want to cover:
+* Using the Command Line to Create a New App
+  * API and Postgres flags
+  * `rails new project-name-here --api --database=postgresql`
+  * What visible changes do we see after?
 
-* Ruby version
+* Configuring the App
+  * Adding Rack-CORS Middleware
+  * Setting up our Routes
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Rendering Info as JSON
+  * Controller setup
+  * Rendering objects as JSON
+  * Intro to FastJSON API/Serializing your data
